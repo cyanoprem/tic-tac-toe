@@ -1,4 +1,5 @@
 # rubocop:disable all
+# Class for creating Players
 class Player
   attr_accessor :name, :symbol
 
@@ -12,11 +13,11 @@ class Player
   end
 end
 
-def game_start()
-  puts "Play Tic-Tac-Toe 2 Players"
+def game_start
+  puts 'Play Tic-Tac-Toe - 2 Players'
   print 'Player 1: Enter your name: '
   $name1 = gets.chomp
-  get_symbol()
+  get_symbol
   player1 = Player.new($name1, $symbol1)
   player1.print_info
 
@@ -29,7 +30,7 @@ def game_start()
   $spots_left = 9
 end
 
-def get_symbol()
+def get_symbol
   print 'Player 1: Enter your symbol "X" or "O": '
   $symbol1 = gets.chomp
   if $symbol1.upcase == 'X'
@@ -39,12 +40,12 @@ def get_symbol()
     $symbol1 = 'O'
     $symbol2 = 'X'
   else
-    puts "Invalid symbol :("
-    get_symbol()
+    puts 'Invalid symbol :('
+    get_symbol
   end
 end
 
-def get_input()
+def get_input
   if $spots_left.odd?
     $matrix.each { |r| puts r.inspect }
     print "#{$name1} Enter the position you want to play: "
@@ -63,19 +64,19 @@ def valid_input(play_position, symbol)
     play_position = Integer(play_position)
     play(play_position, symbol)
   rescue ArgumentError, TypeError
-    puts "Invalid input :("
+    puts 'Invalid input :('
   end
 end
 
 def play(play_position, symbol)
-  row = $matrix.detect{|aa| aa.include?(play_position.to_i)}
+  row = $matrix.detect { |aa| aa.include?(play_position.to_i) }
   if row == nil
-    puts "Invalid input :("
-    get_input()
+    puts 'Invalid input :('
+    get_input
   elsif row.index(play_position.to_i)
     $matrix[$matrix.index(row)][row.index(play_position.to_i)] = symbol
     $spots_left -= 1
-    did_win()
+    did_win
   end
 end
 
@@ -98,10 +99,10 @@ def did_win()
     who_won($matrix[0][2])
   else
     if $spots_left == 0
-      puts "Draw!!"
-      game_start()
+      puts 'Draw!!'
+      game_start
     else
-      get_input()
+      get_input
     end
   end
 end
@@ -111,18 +112,16 @@ def who_won(symbol)
     $matrix.each { |r| puts r.inspect }
     puts "#{$name1}! You have Won!"
     $spots_left = 0
-    game_start()
+    game_start
   elsif symbol == $symbol2
     $matrix.each { |r| puts r.inspect }
     puts "#{$name2}! You have Won!"
     $spots_left = 0
-    game_start()
+    game_start
   end
 end
 
 # Starts the game
-game_start()
+game_start
 
-while $spots_left > 0 do
-  get_input()
-end
+get_input while $spots_left > 0
